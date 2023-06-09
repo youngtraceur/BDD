@@ -1,0 +1,59 @@
+CREATE TABLE raza
+(
+    id_raza NUMBER(3) CONSTRAINT PK_RAZA_ID PRIMARY KEY,    --CONSTRAINT agrega PK porimary key PRIMARY KEY lo vuelve clave primaria
+    nombre VARCHAR2(30) CONSTRAINT NN_RAZA_NOMBRE NOT NULL --NOT NULL lo hace obligatorio
+
+);
+
+CREATE TABLE mascota
+
+(
+    id_mascota NUMBER(3)
+                GENERATED ALWAYS AS IDENTITY  
+                MINVALUE 1   --valor minimo por empexar
+                MAXVALUE 999   --valor maximo
+                START WITH 1   --comenzar con 
+                INCREMENT BY 1  --incrementado en
+                CONSTRAINT PK_MASCOTA_ID PRIMARY KEY,
+    nombre VARCHAR2(30) 
+            CONSTRAINT NN_MASCOTA_NOMBRE NOT NULL,
+    fecha_ingreso DATE DEFAULT SYSDATE NOT NULL,  --DEFAULT SYSDATE para hora del sistema por defecto
+    cant_pulgas NUMBER(3)
+            CONSTRAINT CK_MASCOTA_CANT_PULGAS CHECK (cant_pulgas <=500), --CHECK es una condicion que debe cumplirse para la tabla
+    
+    id_raza NUMBER(3) CONSTRAINT FK_MASCOTA_ID_RAZA
+        REFERENCES raza(id_raza) --REFERENCES es citar columna de otra tabla
+);
+
+--AGREGA 
+ALTER TABLE mascota 
+ADD (sexo CHAR(1) NOT NULL);
+--MODIFICAR COLUMNA
+ALTER TABLE mascota
+MODIFY (sexo CHAR(3));
+
+--ELIMINAR COLUMNA
+ALTER TABLE mascota
+DROP (sexo);
+
+--LAS TABLAS DEBEN SER BORRADAS SEGUN SI CONTIENEN CLAVES PRIMARIAS O NO USADAS EN LA TABLA
+--BORRAR A LO MALDITO
+DROP TABLE raza CASCADE CONSTRAINT;
+
+--AGREGAR FILAS A TABLAS
+INSTER INTO tabla (fila,fila)
+VALUES (numero de la tabla, 'nombre')
+
+-- insertar filas en tablas
+
+INSERT INTO raza (id_raza, nombre)
+VALUES (5,'Chow Chow');
+
+INSERT INTO raza (id_raza, nombre)
+VALUES (6,'Nose');
+
+INSERT INTO raza (id_raza, nombre)
+VALUES (7,'nyaa');
+
+INSERT INTO pet (nombre, cant_pulgas, id_raza, sexo)
+VALUES ('elperro',100,1,0);

@@ -57,3 +57,37 @@ VALUES (7,'nyaa');
 
 INSERT INTO pet (nombre, cant_pulgas, id_raza, sexo)
 VALUES ('elperro',100,1,0);
+
+
+CREATE TABLE producto
+
+(
+    id_producto NUMBER(5),
+    descripcion VARCHAR(50)
+    
+);
+
+INSERT INTO producto VALUES (1123, 'osooooo');
+INSERT INTO producto VALUES(1234, 'otracosa');
+
+CREATE SEQUENCE SEQ_PRODUCTO_ID
+INCREMENT BY 1
+START WITH 1
+MAXVALUE 20
+MINVALUE 1
+CYCLE
+NOCACHE;
+
+--DROP SEQUENCE 
+
+
+SELECT SEQ_PRODUCTO_ID.NEXTVAL
+FROM DUAL;
+
+SELECT SEQ_PRODUCTO_ID.CURRVAL
+FROM DUAL;
+
+--insertar datos con secuancia
+
+INSERT INTO producto
+VALUES (SEQ_PRODUCTO_ID.NEXTVAL, 'Maria de peluche');

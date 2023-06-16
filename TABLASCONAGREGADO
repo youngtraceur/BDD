@@ -46,3 +46,6 @@ ALTER TABLE comison_boleta
 
 INSERT INTO vendedor
 VALUES (0001,12345678,'1','juan',NULL,'Roa','morales','15/06/2023',1650000); --null para no agregar valores. fechas y nombres con comillas simples '
+INSERT INTO boleta
+VALUES (00000001,SYSDATE,120000, 0001 ); --la clave primaria debe coincidir con la foranea
+INSERT INTO COMISON_BOLETA VALUES (10000,0000001,0001); --mantener orden de filas coincidiendo con CF.

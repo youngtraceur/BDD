@@ -1,0 +1,48 @@
+CREATE TABLE boleta (
+    nro_boleta   NUMBER(8) NOT NULL,
+    fecha_boleta DATE NOT NULL,
+    monto_total  NUMBER(8) NOT NULL,
+    id_vendedor  NUMBER(5) NOT NULL
+);
+
+ALTER TABLE boleta ADD CONSTRAINT boleta_pk PRIMARY KEY ( nro_boleta );
+
+CREATE TABLE comison_boleta (
+    monto_comision NUMBER(8) NOT NULL,
+    nro_boleta     NUMBER(8) NOT NULL,
+    id_vendedor    NUMBER(5) NOT NULL
+);
+
+ALTER TABLE comison_boleta ADD CONSTRAINT comison_boleta_pk PRIMARY KEY ( nro_boleta,
+                                                                          id_vendedor );
+
+CREATE TABLE vendedor (
+    id_vendedor    NUMBER(5) NOT NULL,
+    numrut         NUMBER(10) NOT NULL,
+    digver         VARCHAR2(1) NOT NULL,
+    pnombre        VARCHAR2(20) NOT NULL,
+    snombre        VARCHAR2(20),
+    appaterno      VARCHAR2(20) NOT NULL,
+    appmaterno     VARCHAR2(20),
+    fecha_contrato DATE NOT NULL,
+    sueldo_base    NUMBER(7) NOT NULL
+);
+
+ALTER TABLE vendedor ADD CONSTRAINT vendedor_pk PRIMARY KEY ( id_vendedor );
+
+ALTER TABLE boleta
+    ADD CONSTRAINT boleta_vendedor_fk FOREIGN KEY ( id_vendedor )
+        REFERENCES vendedor ( id_vendedor );
+
+ALTER TABLE comison_boleta
+    ADD CONSTRAINT comison_boleta_boleta_fk FOREIGN KEY ( nro_boleta )
+        REFERENCES boleta ( nro_boleta );
+
+ALTER TABLE comison_boleta
+    ADD CONSTRAINT comison_boleta_vendedor_fk FOREIGN KEY ( id_vendedor )
+        REFERENCES vendedor ( id_vendedor );
+
+-- POBLAR TABLAS
+
+INSERT INTO vendedor
+VALUES (0001,12345678,'1','juan',NULL,'Roa','morales','15/06/2023',1650000); --null para no agregar valores. fechas y nombres con comillas simples '

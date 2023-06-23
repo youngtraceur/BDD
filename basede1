@@ -90,4 +90,6 @@ FROM DUAL;
 --insertar datos con secuancia
 
 INSERT INTO producto
-VALUES (SEQ_PRODUCTO_ID.NEXTVAL, 'Maria de peluche');
+VALUES (SEQ_PRODUCTO_ID.NEXTVAL, 'Maria de peluche'); los varchar llenan comilla simple ''''''
+
+SELECT COLUMNAS A NOMBRAR FROM NOMBRE TABLA

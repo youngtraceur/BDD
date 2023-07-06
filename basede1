@@ -99,3 +99,5 @@ CREATE TABLE Productos (
     nombre VARCHAR(100),
     precio DECIMAL(10, 2),
     CHECK (precio > 0)
+
+SELECT 'nombre_columna' FROM tabla;

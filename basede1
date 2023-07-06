@@ -93,3 +93,9 @@ INSERT INTO producto
 VALUES (SEQ_PRODUCTO_ID.NEXTVAL, 'Maria de peluche'); los varchar llenan comilla simple ''''''
 
 SELECT COLUMNAS A NOMBRAR FROM NOMBRE TABLA
+ALTER TABLE nombre_tabla RENAME COLUMN nombre_columna_actual TO nuevo_nombre_columna; alterar columna
+CREATE TABLE Productos (
+    id INT,
+    nombre VARCHAR(100),
+    precio DECIMAL(10, 2),
+    CHECK (precio > 0)

@@ -1,0 +1,36 @@
+Tabla "Deporte":
+
+ID_deporte (clave primaria)
+Nombre_deporte
+Tabla "Escuela":
+
+ID_escuela (clave primaria)
+Nombre_escuela
+ID_director (clave foránea para referenciar el director responsable de la escuela)
+Tabla "Recinto":
+
+ID_recinto (clave primaria)
+Nombre_recinto
+Tabla "Escuela_Deporte":
+
+ID_escuela (clave foránea para referenciar la escuela)
+ID_deporte (clave foránea para referenciar el deporte)
+(Esta tabla relaciona las escuelas con los deportes que imparten)
+Tabla "Profesor":
+
+ID_profesor (clave primaria)
+Nombre_profesor
+Tipo_contrato (puede ser una referencia a una tabla "TipoContrato" si se desea tener una lista de tipos de contrato)
+Tabla "Escuela_Profesor":
+
+ID_escuela (clave foránea para referenciar la escuela)
+ID_profesor (clave foránea para referenciar el profesor)
+(Esta tabla relaciona las escuelas con los profesores contratados)
+Tabla "Turno":
+
+ID_turno (clave primaria)
+Hora_inicio
+Hora_fin
+ID_recinto (clave foránea para referenciar el recinto)
+ID_profesor (clave foránea para referenciar el profesor)
+(Esta tabla registra los turnos de trabajo de los profesores en cada recinto)

@@ -1,0 +1,59 @@
+SELECT DEPARTMENT_ID,DEPARTMENT_NAME --citar SELECT desde DEPARTMENT_ID en la tabla FROM DEPARTMENTS
+FROM DEPARTMENTS;
+
+SELECT * FROM EMPLOYEES --citar todo * desde FROM tabla EMPLOYEES
+
+SELECT FIRST_NAME, LAST_NAME, SALARY --CItar
+FROM EMPLOYEES;
+
+
+
+--operadores aritmeticos + - * /
+SELECT FIRST_NAME, SALARY, salary * 2          --Citar operacion en otra columna
+FROM EMPLOYEES;
+
+
+SELECT FIRST_NAME,
+        SALARY, 
+        salary * 0.19  as IVA,
+        SALARY + (salary*0.19) as IVA_INC       --Citar operacion en otra columna y renombrar con AS
+FROM EMPLOYEES;                                 
+
+--concatenacion altgr+1 ||
+
+SELECT FIRST_NAME ||'  '|| LAST_NAME      --con || eliminas espcion entre columnas agregan comillas || '' || espacios
+FROM EMPLOYEES;
+
+
+SELECT FIRST_NAME || ' Fue contratad@ en la fecha '|| HIRE_DATE||' y gana $'|| SALARY
+FROM EMPLOYEES;
+
+--operador DISTINCT visualmente elimina filas semejantes
+
+SELECT DISTINCT LAST_NAME, DEPARTMENT_ID
+FROM EMPLOYEES;
+
+--ORDER BY ASC/DESC ordena columnas ascendente o descendiente
+
+SELECT FIRST_NAME, LAST_NAME
+FROM EMPLOYEES
+ORDER BY FIRST_NAME ASC;
+
+SELECT FIRST_NAME, LAST_NAME
+FROM EMPLOYEES
+ORDER BY FIRST_NAME DESC;
+
+--sueldo ordenado de mayor a menor
+SELECT FIRST_NAME, SALARY, salary *12
+FROM EMPLOYEES
+ORDER BY SALARY DESC;
+
+
+SELECT FIRST_NAME, SALARY, salary *12
+FROM EMPLOYEES
+ORDER BY 3 DESC;
+
+--ordenar multiples columnas
+SELECT FIRST_NAME, last_name
+FROM EMPLOYEES
+ORDER BY FIRST_NAME ASC, LAST_NAME ASC;

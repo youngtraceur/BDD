@@ -1,0 +1,135 @@
+SELECT *
+FROM employees
+WHERE department_id = 90;  //llama a todo * desde employees en department_id que sea igual 90
+
+
+SELECT *
+FROM employees
+WHERE last_name = 'Smith';   // llama desde employees a todos los apellidos smith respetando mayuscula
+
+
+SELECT last_name, hire_date
+FROM employees
+where hire_date > '01/03/2008';
+
+
+SELECT first_name, department_id
+FROM employees
+where department_id <> 90;
+
+
+SELECT last_name, salary
+FROm employees
+WHERE salary between 2500 and 3500;
+
+
+
+SELECT last_name, hire_date
+FROm employees
+WHERE hire_date BETWEEN '01-01-2003' and '31-12-2003';
+
+
+SELECT employee_id, last_name, manager_id, department_id
+FROM employees
+WHERE last_name IN ('Hartstein','Vargas','Smith');
+
+
+SELECT first_name
+FROM employees
+WHERE first_name LIKE 'S%';   --para citar a todos los que empiecen con S mayuscula si cambia de lado el % cita a los que terminen en S minuscula
+
+
+SELECT last_name, hire_date
+FROM employees
+WHERE hire_date LIKE '21%'; --cita contrataciones de un dia 21
+
+
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '_o%'; --Guion bajo salta lugar citando a la letra o
+
+
+SELECT last_name, commission_pct
+FROM employees
+where commission_pct IS NOT null;  --cita todo menos los not null
+
+
+--or
+SELECT employee_id, salary, hire_date
+FROM employees
+WHERE salary >= 17000 OR hire_date > '01/01/2008';  --OR es una causal de una u otra condicion
+
+
+--AND
+SELECT employee_id, salary, hire_date
+FROM employees
+WHERE salary >= 10000 AND hire_date > '01/01/2008'; --AND es una causal obligatoria
+
+
+--COnstruir tablas utilizando select
+CREATE TABLE copia_empleados
+AS SELECT * FROM employees;     --crea tabla copia_empleados as como seleccionndo todo * desde employees
+
+
+SELECT *
+FROM copia_empleados;  --copia
+
+
+CREATE TABLE dept80
+AS SELECT employee_id,
+            salary*12 salario_anual,
+            hire_date
+FROM employees
+WHERE department_id = 80;    --crea tabla nueva dept80 con salario anual como nueva columna
+
+
+CREATE TABLE DEPT30
+(
+    cod_empleado NOT NULL CONSTRAINT PK_DEPT30 PRIMARY KEY,
+    salario_anual NOT NULL,
+    fecha_contrato NOT NULL
+)
+
+AS SELECT employee_id,
+            salary*12 salario_anual,
+            hire_date
+FROM employees
+WHERE department_id = 30;    --crea tabla nueva dept30 con salario anual como nueva columna
+
+
+SELECT *
+FROM DEPT30
+
+
+--VARIABLES DE SUSTITUCION
+
+SELECT employee_id,
+        last_name,
+        salary,
+        department_id
+FROM employees
+WHERE employee_id = &id_empleado;  --interactivo usndo ventana externa para ctar con id empleado
+
+
+
+SELECT last_name, department_id, salary*12
+FROM employees
+WHERE last_name = '&apellido';      --dinamico citar apellidos desde las_name con comillas simples
+
+
+
+SELECT employee_id, last_name, job_id, &column_name
+FROM employees
+WHERE &condition
+ORDER BY &order_column;          --dinami con 3 ventanas externas que citan la tabla, condicion de donde y ordenar como
+
+
+
+--Trabajando con variables de sustiticion
+
+SELECT employee_id, last_name, job_id, &&column_name  --crea variable con doble && y reutiliza siempre lo ingresado
+FROM employees
+ORDER BY &column_name;
+
+--Eliminar variable
+UNDEFINE column_name  --borra variable almacenada anterior

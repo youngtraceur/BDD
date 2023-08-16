@@ -51,7 +51,7 @@ ORDER BY SALARY DESC;
 
 SELECT FIRST_NAME, SALARY, salary *12
 FROM EMPLOYEES
-ORDER BY 3 DESC;
+ORDER BY 3 DESC;             // ordena desde la 3era columna
 
 --ordenar multiples columnas
 SELECT FIRST_NAME, last_name

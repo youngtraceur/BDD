@@ -1,0 +1,4 @@
+SELECT FECHA_ENTREGA_PROPIEDAD, direccion_propiedad
+        
+FROM PROPIEDAD
+WHERE TO_CHAR(fecha_entrega_propiedad, 'YY') = '&anio_ingresado';

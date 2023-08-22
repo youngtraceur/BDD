@@ -2,3 +2,76 @@ SELECT FECHA_ENTREGA_PROPIEDAD, direccion_propiedad
         
 FROM PROPIEDAD
 WHERE TO_CHAR(fecha_entrega_propiedad, 'YY') = '&anio_ingresado';
+
+
+--caso2
+
+SELECT NUMRUT_CLI,
+        NOMBRE_CLI, APPATERNO_CLI||'' ||APMATERNO_CLI
+        RENTA_CLI,
+        FONOFIJO_CLI,
+        CELULAR_CLI
+FROM CLIENTE
+
+WHERE
+    (ID_ESTCIVIL = 'Soltero' OR ID_ESTCIVIL = 'Separado' OR ID_ESTCIVIL = 'Divorciado')
+    AND RENTA_CLI >= 20000
+    
+ORDER BY APPATERNO_CLI,
+        NOMBRE_CLI;
+
+
+--caso2
+
+SELECT NUMRUT_CLI,
+        NOMBRE_CLI, APPATERNO_CLI||'' ||APMATERNO_CLI
+        RENTA_CLI,
+        FONOFIJO_CLI,
+        CELULAR_CLI
+FROM CLIENTE
+
+WHERE
+    (ID_ESTCIVIL = 1 OR ID_ESTCIVIL = 3 OR ID_ESTCIVIL = 4)
+    AND RENTA_CLI >= 20000
+    
+ORDER BY APPATERNO_CLI,
+        NOMBRE_CLI;
+        
+        
+        
+--caso 3
+
+SELECT NOMBRE_EMP ||''||
+        APPATERNO_EMP ||''||
+        APMATERNO_EMP,
+        SUELDO_EMP,
+        SUELDO_EMP * 1.85 as SUELDO_REAJUSTADO,
+        SUELDO_EMP*8.5 as REAJUSTE
+        
+FROM EMPLEADO;
+
+--simulacion2
+
+SELECT NOMBRE_EMP ||' '||APPATERNO_EMP ||' '||APMATERNO_EMP,
+        SUELDO_EMP
+        
+FROM EMPLEADO
+
+
+WHEN SUELDO_EMP >= 20000 AND SUELDO_EMP <= 400000 THEN SUELDO_EMP * 0.2;
+
+
+
+--caso4
+SELECT
+    Nombre,
+    ApellidoPaterno,
+    SueldoActual,
+    :porcentaje AS PorcentajeBonificacion,
+    (SueldoActual * :porcentaje / 100) AS BonificacionCalculada
+FROM
+    Empleados
+WHERE
+    SueldoActual < 500000
+ORDER BY
+    ApellidoPaterno;

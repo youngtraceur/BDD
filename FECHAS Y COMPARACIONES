@@ -1,0 +1,105 @@
+SELECT last_name, 
+        UPPER(last_name),  
+        job_id,  
+        LOWER(job_id),  
+        INITCAP(job_id)
+ FROM employees;
+ 
+
+SELECT  last_name apellido,  
+        CONCAT('Su salario es ', salary), 
+        SUBSTR(last_name , 1,4),  
+        LENGTH(last_name), 
+        INSTR('abcdef', 'e') 
+ FROM employees;
+ 
+ SELECT last_name "Apellido", 
+        INSTR(last_name,'e', 1, 2) "Resultado INSTR",
+        SUBSTR(last_name, -2, 2) "Resultado SUBSTR", 
+        TRIM('B' FROM last_name) "Resultado 1er. TRIM",
+        salary, 
+        TRIM(1 FROM salary) "Resultado 2do. TRIM"
+FROM employees
+WHERE salary between 9500 AND 10000
+ORDER BY last_name;
+
+SELECT TRIM('      hola          ') AS ej
+FROM DUAL;
+
+SELECT last_name apellido,  
+        REPLACE(last_name, 'o', '-----'), 
+        salary salario, 
+        LPAD(salary,10,'0'),  
+        RPAD(salary,10,'x')
+ FROM employees
+ORDER BY last_name;
+
+-- MANIPULAR NÚMEROS
+SELECT ROUND(96.54), ROUND(96.44), ROUND(258.367,1),
+       TRUNC(96.54), TRUNC(258.367,1),
+       10 / 2, MOD(10,2)
+FROM dual;
+
+-- MANIPULAR FECHAS
+SELECT SYSDATE, 
+        MONTHS_BETWEEN(SYSDATE,'22-01-2023'),
+        NEXT_DAY('14/AGO/2023','LUNES') "NEXT_DAY",
+        LAST_DAY('05/FEB/2020') "LAST_DAY"
+FROM dual;
+
+/*
+    Determinar la cantidad de meses y años
+    trabajados por cada empleado(a)
+    desde su fecha de contrato, hasta hoy
+    Columnas: nombre, fecha contrato, total meses, total años
+*/
+
+SELECT first_name,
+        hire_date,        
+        ROUND(SYSDATE - hire_date) días, -- opcional
+        ROUND(MONTHS_BETWEEN(SYSDATE,hire_date), 1) AS meses,
+        ROUND(MONTHS_BETWEEN(SYSDATE,hire_date) / 12, 1) AS años
+FROM employees;
+
+
+SELECT hire_date, ADD_MONTHS(hire_date, 3), --suma 3 meses con el parentesis tipo date
+        ADD_MONTHS(hire_date, 1), --añade mes
+        ADD_MONTHS(hire_date, -1),--quita mes
+        hire_date + 2, --suma dias
+        hire_date - 2 --resta dias
+FROM employees;
+
+
+SELECT SYSDATE,  --
+        EXTRACT(DAY FROM SYSDATE) dia,
+        EXTRACT(MONTH FROM SYSDATE) mes,
+        EXTRACT(YEAR FROM SYSDATE) año
+        
+FROM dual;
+
+
+/*
+ DETERMINAN EMPLEADOS    
+
+*/
+ 
+ SELECT first_name, hire_date
+ FROM employees
+ WHERE EXTRACT(MONTH FROM hire_date) = EXTRACT(MONTH FROM SYSDATE);   --donde extraer (mes desde tabla) = Extraer (mes desde fecha del sistema)
+
+
+
+
+--INITCAP PRIMERA EN MAYUSCULA
+SELECT 
+        NUMRUN_CLI ||'-'||  DVRUN_CLI AS "RUN CLIENTE",
+        LOWER(PNOMBRE_CLI)||' '||INITCAP(SNOMBRE_CLI)||' '|| APPATERNO_CLI ||' '||  APMATERNO_CLI AS "NOMBRE COMPLETO", 
+        FECHA_NAC_CLI AS "FECHA NACIMIENTO"
+         
+FROM CLIENTE
+WHERE EXTRACT(DAY FROM FECHA_NAC_CLI) = EXTRACT (DAY FROM SYSDATE) +1
+AND EXTRACT(MONTH FROM FECHA_NAC_CLI) = EXTRACT (MONTH FROM SYSDATE)
+ORDER BY APPATERNO_CLI ASC;
+
+
+

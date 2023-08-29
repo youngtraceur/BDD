@@ -1,0 +1,62 @@
+SELECT SYSDATE as SO,
+       CURRENT_DATE as SESION,
+TO_CHAR(CURRENT_DATE, 'YYYY')as año ,   
+TO_CHAR(CURRENT_DATE, 'YY')as "año de dos digitos" ,   
+TO_CHAR(CURRENT_DATE, 'DD/MM/YY HH:MI:SS')as "FECHA CON MINUTO",   --minutos como MI
+TO_CHAR(CURRENT_DATE, 'DD/MM/YY HH:MI:SS PM')as "PM",
+TO_CHAR(CURRENT_DATE, 'DD "de" MONTH "del" YYYY HH12:MI:SS AM')as "CONCATENADO de 12 hrs",
+TO_CHAR(CURRENT_DATE, 'DD "de" MONTH "del" YYYY HH24:MI:SS AM')as "24 hrs",
+TO_CHAR(CURRENT_DATE, 'Q"er trimestre"')as "trimestres"
+
+FROM DUAL;
+
+
+
+SELECT TO_CHAR(CURRENT_DATE, 'D'),
+       TO_CHAR(CURRENT_DATE, 'DAY'),
+       TO_CHAR(CURRENT_DATE, 'DD')as "DIA DEL MES",
+        TO_CHAR(CURRENT_DATE, 'DL') as "FECHA ACTUAL ESCRITA",
+        TO_CHAR(CURRENT_DATE, 'DS') as "fecha con numeros",
+        TO_CHAR(CURRENT_DATE, 'DY') as "dia de 3 caracteres"
+        
+FROM DUAL;
+
+
+SELECT TO_CHAR(20956821, '$999G999G999')as millon,  --9 como digito G como separador
+       TO_CHAR(20956821, 'L999G999G999')as "millon local",--L como moneda local NLS TERRITORIO PARA 
+       TO_CHAR(20956821, 'L999G999G999D00')as "millon decimal" --D como decimal 0 como cuantos decimales
+
+FROM DUAL;
+
+ALTER SESSION
+ SET NLS_TERRITORY = 'PAIS'; -- cambia locacion de la sesion
+ 
+
+ 
+SELECT '2 + 5',
+        TO_NUMBER('2') + TO_NUMBER('5')as "CONVERSION EXPLICITA",
+        '2'+'5' as "CONVERSION IMPLICITA" --oracle ve numeros
+
+FROM DUAL;
+
+
+SELECT EXTRACT(MONTH FROM TO_DATE ('08-09-2023')) as "MES CITADO" --cita el mes convirtiendolo EXPLICITA
+FROM DUAL;
+
+SELECT hire_date
+FROM employees
+WHERE hire_date > '01-04-2008' --CONVERSION IMPLICITA
+
+-- NVL
+SELECT NVL(NULL, 'ES NULO')
+       NVL('CHAO', 'HOLA')
+       NVL(NULL, 'ES NULO')
+       NVL(NULL, 'ES NULO')
+FROM DUAL;
+
+SELECT first_name, NVL(commission_pct, 0)as "valor comision"
+FROM employees;
+
+SELECT first_name, NVL(TO_CHAR(MANAGER_ID), 'SIN JEFE(A)') --usar TO_CHAR para comparar numers y sin jefe para null
+FROM employees
+

@@ -1,0 +1,17 @@
+SELECT TO_CHAR(NUMRUN_CLI, '99G999G999') ||'-'|| DVRUN_CLI as "RUN CLIENTE",
+        INITCAP(APPATERNO_CLI)||' '||SUBSTR(APMATERNO_CLI,1,1)||'. '||INITCAP(SNOMBRE_CLI)||' '||INITCAP(PNOMBRE_CLI) as "NOMBRE CLIENTE",
+        direccion,
+        
+        DECODE(FONO_FIJO_CLI,
+         NULL,'NO POSEE TELEFONO FIJO',
+        FONO_FIJO_CLI) as "TELEFONO FIJO",
+        DECODE(CELULAR_CLI,
+         NULL,'NO POSEE CELULAR',
+        CELULAR_CLI)
+         as "CELULAR",
+         ID_COMUNA
+        
+FROM CLIENTE   
+ORDER BY &NOMBRE_COLUMNA &ASC_DESC;        
+        
+        

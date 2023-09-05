@@ -15,3 +15,14 @@ FROM CLIENTE
 ORDER BY &NOMBRE_COLUMNA &ASC_DESC;        
         
         
+--CASO 2
+
+SELECT 'El empleado' ||' '||PNOMBRE_EMP ||' '||APPATERNO_EMP||' '||APMATERNO_EMp||
+        ' estuvo de cumpleaños el '||  
+        EXTRACT(day from FECHA_NAC) || ' de '||
+       INITCAP( RTRIM(TO_CHAR(FECHA_NAC, 'MONTH')))||' Cumplió '|| 
+        ROUND(MONTHS_BETWEEN(CURRENT_DATE, FECHA_NAC)/12, 1)||' años' AS "LISTADO CUMPLEAÑOS"
+    
+    
+FROM EMPLEADO
+WHERE EXTRACT(MONTH FROM CURRENT_DATE)-1= EXTRACT(MONTH FROM FECHA_NAC);

@@ -1,0 +1,29 @@
+-- Funciones de grupo
+select sum(salary) suma, 
+        avg(salary) promedio,
+        min(salary) mínimo,
+        max(salary) maximo,
+        count(salary) cantidad_total,
+        count(commission_pct) cant_total_no_nulos,
+        count(nvl(commission_pct, 0)),
+        count(first_name)
+from employees;
+
+select count(*) from employees;
+
+-- Grupos -> GROUP BY
+SELECT department_id
+FROM employees
+GROUP BY department_id;
+
+SELECT job_id
+FROM employees
+GROUP BY job_id;
+
+-- Funciones de grupo y group by
+SELECT job_id, COUNT(employee_id) AS total_empleados
+FROM employees
+GROUP BY job_id;
+
+-- Determinar el salario promedio por cada departamento
+

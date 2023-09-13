@@ -1,0 +1,45 @@
+select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+GROUP BY department_id;  --por departamento
+
+
+  --WHERE no puede filtrar grupos
+
+  select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+GROUP BY department_id  --por departamento
+HAVING ROUND(AVG(salary)) > 6000;
+  --se usa HAVING como filtro en grupos, funciona como WHERE
+
+    select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+GROUP BY department_id  --por departamento
+HAVING ROUND(AVG(salary)) > 6000;
+
+--no mostrar salarios iguales a 10000
+select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+GROUP BY department_id  --por departamento
+HAVING ROUND(AVG(salary)) != 10000;
+
+--test 2
+select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+GROUP BY department_id  --por departamento
+HAVING ROUND(AVG(salary)) > 6000
+AND ROUND(AVG(salary)) != 10000;
+
+--ademas no considerar departamentos NULL
+--ordenar desde el salario promedio mas alto, al mas bajo
+select department_id,ROUND(AVG(salary)) as salario_prom --salario promedio
+FROM employees
+WHERE department_id IS NOT NULL
+GROUP BY department_id  --por departamento
+HAVING ROUND(AVG(salary)) > 6000
+AND ROUND(AVG(salary)) != 10000
+ORDER BY salario_prom DESC;
+
+
+SELECT ROUND(MAX(AVG(salary)))
+FROM employees
+GROUP BY department_id;

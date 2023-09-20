@@ -1,0 +1,47 @@
+--NIGGER
+SELECT * FROM DEPARTMENTS;
+SELECT * FROM LOCATIONS;
+
+--NATURAL JOIN
+SELECT *
+FROM departments
+NATURAL JOIN locations; --columnas en comun aparecen.
+
+
+SELECT e.first_name, j.job_title FROM employees e --alias para tabla
+NATURAL JOIN jobs j;
+
+--107
+SELECT * FROM EMPLOYEES
+NATURAL JOIN departments; --si hay mas de algo en comun filtra aun mas
+
+
+--INNER JOIN USING
+SELECT *
+FROM employees
+INNER JOIN departments
+USING (department_id, manager_id);  --filtra usando USING columnas especificas.
+
+
+--INNER JOIN ON
+SELECT e.first_name, j.job_title 
+FROM employees e 
+INNER JOIN jobs j
+ON e.job_id = j.job_id     --muestra resultados de una tabla y otra mientras sean iguales
+
+
+SELECT e.FIRST_NAME, d.DEPARTMENT_NAME  --columnas a encontrar renombradas.
+FROM employees e    --tabla renombrada e
+INNER JOIN departments d --tabla renmbrada d
+ON (e.department_id = d.department_id);  --comparativa e = d 
+
+
+SELECT emp.first_name,
+        salary,
+        dep.department_name
+        
+FROM employees emp
+INNER JOIN departments dep
+on emp.department_id = dep.department_id
+AND salary > 7000
+ORDER BY salary DESC;

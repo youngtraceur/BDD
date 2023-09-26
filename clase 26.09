@@ -1,0 +1,87 @@
+--SELFJOIN consulta a la misma tabla
+
+SELECT e.first_name||' '||e.last_name AS "EMPLEADOS(A)", --alias.tabla FROM tabla como alias inner join como alias 
+        j.first_name||' '||j.last_name AS "JEFES(A)"        --ON comparacion de columnas de la tabla como alias
+FROM employees e
+INNER JOIN employees j
+ON e.manager_id = j.employee_id
+
+
+--NONEQQUIJOINS para cuando columnas son diferentes
+SELECT e.first_name, e.job_id, j.job_id
+FROM employees e
+INNER JOIN jobs j
+ON e.job_id <> j.job_id      -- distinto de
+ORDER BY 1; 
+
+
+--OUTER JOINS
+--LEFT OUTER JOIN
+SELECT emp.first_name, dep.department_name --ejemplo con inner join donde falta el null
+FROM employees emp
+INNER JOIN departments dep
+ON emp.department_id = dep.department_id;
+
+SELECT emp.first_name, NVL(dep.department_name, 'Sin departamento') --LEFT OUTER JOIN donde integra al faltante de la tabla izquierda
+FROM employees emp                          -- IZQUIERDA o DERECHA determinado por que tabla cito primero
+LEFT OUTER JOIN departments dep            --NVL causal de si hay nulos usa el texto.
+ON emp.department_id = dep.department_id;
+
+--RIGHT OUTER JOIN
+SELECT NVL(emp.first_name, 'SIN EMPLEADOS'), NVL(dep.department_name, 'Sin departamento') --RIGHT OUTER JOIN donde integra al faltante de la tabla derecha
+FROM employees emp                          -- IZQUIERDA o DERECHA determinado por que tabla cito primero
+RIGHT OUTER JOIN departments dep            --NVL causal de si hay nulos usa el texto.
+ON emp.department_id = dep.department_id;
+
+
+
+SELECT *
+FROM departments
+
+select count(*)
+FROM employees;
+
+
+
+--FULL OUTER JOIN
+
+SELECT NVL(emp.first_name,'SIN EMPLEADO'), NVL(dep.department_name, 'Sin departamento') 
+FROM employees emp                          --si quedan fuera en ambas tablas, los trae a todos jaja
+FULL OUTER JOIN departments dep            
+ON emp.department_id = dep.department_id;
+
+--CROSS JOIN
+
+SELECT emp.employee_id, dep.department_id, department_name
+FROM employees emp
+CROSS JOIN departments dep
+ORDER BY emp.employee_id
+
+--MAS DE DOS TABLAS
+
+SELECT emp.employee_id, 
+        dep.department_id,
+        loc.city
+FROM employees emp
+INNER JOIN departments dep
+ON emp.department_id = dep.department_id
+INNER JOIN locations loc
+ON loc.location_id = dep.location_id
+
+
+--pais y region
+
+SELECT emp.employee_id, 
+        dep.department_id,
+        loc.city,
+        cou.country_name
+FROM employees emp
+INNER JOIN departments dep
+ON emp.department_id = dep.department_id
+INNER JOIN locations loc
+ON loc.location_id = dep.location_id
+INNER JOIN countries cou
+ON loc.location_id = cou.country_id
+INNER JOIN regions reg
+ON cou.region_id = reg.region_id;
+

@@ -1,0 +1,49 @@
+SELECT TO_CHAR(CLI.NUMRUN, '999G999G999')||'-'||CLI.DVRUN AS "RUN CLIENTE",
+        INITCAP(CLI.PNOMBRE)||' '||SUBSTR(CLI.SNOMBRE, 1, 1)||'. '||INITCAP(CLI.APPATERNO)||' '||INITCAP(CLI.APMATERNO) AS "NOMBRE CLIENTE",
+        CLI.DIRECCION AS "DIRECCION",
+        PRO.NOMBRE_PROVINCIA as "PROVINCIA",
+        REG.NOMBRE_REGION as "REGION",
+        SUBSTR(TTC.NRO_TRANSACCION, -1,1) AS "COMPRAS VIGENTES"
+       
+        
+        
+        
+FROM CLIENTE CLI
+INNER JOIN PROVINCIA PRO
+ON CLI.COD_PROVINCIA = PRO.COD_PROVINCIA 
+INNER JOIN REGION REG
+ON CLI.COD_REGION = REG.COD_REGION
+INNER JOIN TARJETA_CLIENTE TAC
+ON TAC.NUMRUN = CLI.NUMRUN
+INNER JOIN TRANSACCION_TARJETA_CLIENTE TTC
+ON TAC.NRO_TARJETA = TTC.NRO_TARJETA
+LEFT JOIN 
+transaccion_tarjeta_cliente TTC ON TTC.nro_tarjeta IN (SELECT TAC.nro_tarjeta FROM tarjeta_cliente TAC WHERE TAC.numrun = c.numrun)
+
+SELECT 
+
+ c.numrun || '-' || c.dvrun AS "RUT del Cliente",
+
+ c.pnombre || ' ' || COALESCE(c.snombre, '') || ' ' || c.appaterno || ' ' || c.apmaterno AS "Nombre Completo",
+
+ pv.nombre_provincia AS "Provincia",
+
+ r.nombre_region AS "Región",
+COUNT(ttc.nro_transaccion) AS "Cantidad de Compras Vigentes",
+SUM(ttc.monto_transaccion) AS "Monto Total de Compras"
+
+FROM 
+
+ cliente c
+
+JOIN 
+provincia pv ON c.cod_region = pv.cod_region AND c.cod_provincia = pv.cod_provincia
+
+JOIN 
+region r ON c.cod_region = r.cod_region
+
+LEFT JOIN 
+transaccion_tarjeta_cliente ttc ON ttc.nro_tarjeta IN (SELECT tc.nro_tarjeta FROM tarjeta_cliente tc WHERE tc.numrun = c.numrun)
+
+GROUP BY 
+c.numrun, c.dvrun, c.pnombre, c.snombre, c.appaterno, c.apmaterno, pv.nombre_provincia, r.nombre_region;

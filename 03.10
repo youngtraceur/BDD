@@ -1,0 +1,67 @@
+select *
+from employees
+where salary > 11000
+
+select *
+from employees
+where salary > (select salary from employees where last_name = 'Abel'); --el parentesis es consulta y el where fuera compara el resultado de esta.
+                                                                        --subconsultas entre parentesis
+                                                                        
+select max(salary)
+from employees
+
+
+select *
+from employees
+where salary = (select max(salary) from employees);
+
+select salary
+from employees
+where department_id = 30
+
+
+
+select *
+from employees
+where salary = (select salary from employees where department_id = 30) --error por citar mas de una columna.
+
+select *
+from employees
+where salary > any (select salary from employees where department_id = 30); --Any cita a cualquiera en la subconsulta
+
+select *
+from employees
+where salary > ANY (17000, 16000, 14000, 13000)--any le basta que se cumpla cualquiera del parentesis para mostrar
+
+
+--11000, 3100, 2900, 2800, 2600, 2500
+select *
+from employees
+where salary > ALL (select salary from employees where department_id = 30) --ALL cita solo lo que cumple la condicion de comparacion
+
+--IN
+select *
+from employees
+where salary IN(select salary from employees where department_id = 30) --IN solo los especificos en la comparativa y operadores de comparacion no van solos
+
+
+-- Exists
+
+select *
+from employees
+where EXISTS(select salary from employees where department_id = 30) --muestra TTRUE de la primera select. si es FALSE no muestra nada.
+
+
+SELECT *
+FROM employees emp
+WHERE EXISTS (SELECT department_name FROM departments dep WHERE dep.department_id = emp.department_id); 
+--comparativa entre dep.department_id con department_id de empleados o employees
+
+
+SELECT *
+FROM employees emp
+WHERE NOT EXISTS (SELECT department_name FROM departments dep WHERE dep.department_id = emp.department_id); --los nulos en comparativa citada
+
+
+
+

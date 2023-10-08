@@ -1,0 +1,13 @@
+SELECT
+    uni.nombre AS unidad,
+    med.pnombre || ' ' || med.snombre || ' ' || med.apaterno || ' ' || med.amaterno AS medico,
+    med.telefono,
+    substr(uni.nombre, 0, 2) || substr(med.apaterno, -3, 2) ||
+    substr(med.telefono, -3, 3) || to_char(med.fecha_contrato, 'DDMM') ||
+    '@medicocktk.cl' AS correo_medico,
+    (SELECT COUNT(ate.ate_id)
+     FROM atencion ate
+     WHERE extract(YEAR FROM ate.fecha_atencion) = extract(YEAR FROM current_date) - 1
+       AND ate.med_run = med.med_run) AS total_atenciones
+FROM unidad uni
+INNER JOIN medico med ON uni.uni_id = med.uni_id;

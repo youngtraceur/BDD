@@ -82,3 +82,23 @@ FROM departments
     UNION ALL
 SELECT department_id, 'NO ENCONTRADO', TO_CHAR(hire_date) --mismo tipo de dato que department_name al ser char
 FROM employees
+
+--ORDER BY
+SELECT employee_id, first_name, last_name,salary sueldo, department_id
+FROM employees
+WHERE salary > 12000
+    MINUS
+SELECT employee_id, first_name, last_name,salary salario, department_id
+FROM employees
+WHERE department_id = 90
+ORDER BY sueldo DESC;
+
+--order by
+SELECT employee_id, first_name, last_name,salary sueldo, department_id
+FROM employees
+WHERE salary > 12000
+    MINUS
+SELECT employee_id, first_name, last_name,salary salario, department_id
+FROM employees
+WHERE department_id = 90
+ORDER BY 2, 1; --first_name , employee_id

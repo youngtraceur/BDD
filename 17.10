@@ -1,0 +1,49 @@
+--DML
+--SAVEPOINT
+-- INSERT
+INSERT INTO departments(department_id, department_name, manager_id, location_id) --insertar INTO en (las columnas)VALUES(valores)
+VALUES(271,'contabilidad',205,1700);
+
+INSERT INTO departments(department_id, department_name, manager_id, location_id)
+VALUES(272,'Finanzas',NULL,NULL);
+
+COMMIT;
+SAVEPOINT dos_inserts; --guarda un punto de intervencion en la tabla
+
+DELETE FROM departments WHERE department_id = 271;
+
+ROLLBACK TO dos_inserts; --Vuelve a un savepoint especifico
+
+INSERT INTO departments(department_id, department_name, manager_id, location_id)
+VALUES(273,'RRHH',NULL, NULL);
+
+COMMIT; --Guardado en base de dato
+
+ROLLBACK; --solo es una reinicio por defecto de la tabla desde ultimo COMMIT
+
+SELECT * 
+FROM employees
+
+--INSERT
+--INSERT INTO tabla
+--VALUES (valores correspondiente a tabla y tipo)
+
+INSERT INTO departments
+VALUES (274,'DESARROLLO',NULL,NULL);
+
+INSERT INTO EMPLOYEES
+VALUES (207,'Dan','Retamal','reta@duoc.cl','90001000','11/11/11','MK_MAN',50000,NULL,205,110)
+
+
+CREATE TABLE emp_depto_30
+    AS SELECT * FROM departments WHERE department_id = 0
+
+CREATE TABLE emp_depto_50
+    AS SELECT * FROM departments WHERE department_id = 0
+
+INSERT ALL 
+INTO emp_depto_30 (department_id, department_name, manager_id, location_id)
+VALUES(250, 'TESTEO',NULL, NULL)
+
+SELECT * FROM employees
+DROP TABLE emp_depto_30

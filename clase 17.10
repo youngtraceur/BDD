@@ -43,7 +43,21 @@ CREATE TABLE emp_depto_50
 
 INSERT ALL 
 INTO emp_depto_30 (department_id, department_name, manager_id, location_id)
+
+
+
 VALUES(250, 'TESTEO',NULL, NULL)
 
 SELECT * FROM employees
 DROP TABLE emp_depto_30
+
+CREATE TABLE tabla_id_auto
+(id_auto NUMBER(10)
+    GENERATED ALWAYS AS IDENTITY
+    MINVALUE 1
+    MAXVALUE 5
+    INCREMENTED BY 1
+    START WITH 1,
+nombre_depto VARCHAR2(30) NOT NULL,
+total_emp NUMER(4)
+);

@@ -1,0 +1,68 @@
+ALTER SESSION DISABLE PARALLEL DML;
+CREATE TABLE tabla_id_auto
+(
+    id_auto NUMBER(10)
+            GENERATED ALWAYS AS IDENTITY
+            MINVALUE 1
+            MAXVALUE 5
+            INCREMENT BY 1
+            START WITH 1,
+    nombre_depto VARCHAR(30) NOT NULL,
+    total_emp NUMBER(4)
+    
+);
+
+INSERT INTO tabla_id_auto(nombre_depto, total_emp)
+VALUES ('bases de datos', 4)
+
+
+INSERT INTO tabla_id_auto(nombre_depto, total_emp)
+VALUES ('Desarrollo', 6)
+
+
+INSERT INTO tabla_id_auto(nombre_depto, total_emp)
+VALUES ('Calidad', 3)
+
+
+INSERT INTO tabla_id_auto(nombre_depto, total_emp)
+VALUES ('Videojuegos', 7)
+
+
+INSERT INTO tabla_id_auto(nombre_depto, total_emp)
+VALUES ('Sistemas', 5)
+
+SELECT * FROM tabla_id_auto;
+ROLLBACK
+COMMIT;
+
+
+
+--UPDATE
+UPDATE tabla_id_auto
+SET nombre_depto = 'Testing' --con WHERE sino afecta todo en la tabla
+WHERE id_auto = 5;
+
+--TRUNCATE
+TRUNCATE TABLE nombre_tabla
+
+
+TRUNCATE TABLE tabla_id_auto --ROLLBACK BORRA A LA MALA MANITOOOO NI EL ROLLBACK SALVA
+
+ROLLBACK
+
+INSERT INTO tabla_id_auto
+
+SELECT* FROM tabla_id_auto
+SELECT DEP.department_name, 
+FROM DEPARTMENTS DEP
+INNER JOIN EMPLOYEES EMP
+COUNT(EMPLOYEE_ID)
+
+
+INSERT INTO tabla_id_auto
+    SELECT dep.department_name, COUNT(employee_id)
+    FROM departments dep
+    JOIN employees emp
+    ON emp.department_id = dep.department_id
+    GROUP BY dep.department_name;
+

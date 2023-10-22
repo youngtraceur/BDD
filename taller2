@@ -1,0 +1,43 @@
+-- CASO 1
+
+SELECT c.nro_patente "NRO PATENTE",
+UPPER(tc.nombre_tipo_camion) "TIPO CAMION",
+UPPER(m.nombre_marca) marca,
+c.anio "AÑO DE FABRICACION",
+TO_CHAR(c.valor_arriendo_dia,'$99G999G999') "VALOR ARRIENDO DIA",
+NVL(TO_CHAR(c.valor_garantia_dia,'$99G999G999'),'NO SE COBRA GARANTIA')"VALOR GARANTIA DIA",
+c.valor_arriendo_dia+NVL(c.valor_garantia_dia,0) "VALOR TOTAL DIA",
+INITCAP(e.pnombre_emp || ' ' || e.appaterno_emp || ' ' ||e.apmaterno_emp) "NOMBRE ENCARGADO",
+e.celular_emp "CELULAR ENCARGADO"
+FROM camion c JOIN tipo_camion tc
+ON c.id_tipo_camion=tc.id_tipo_camion 
+JOIN marca m
+ON c.id_marca=m.id_marca
+JOIN empleado e
+ON c.numrun_emp=e.numrun_emp
+ORDER BY "TIPO CAMION", c.valor_arriendo_dia DESC,
+"VALOR GARANTIA DIA", c.nro_patente;
+
+
+
+
+
+
+--CASO2
+
+SELECT TO_CHAR(e.numrun_emp,'09G999G999') || '-' ||  e.dvrun_emp "RUN EMPLEADO",
+INITCAP(e.pnombre_emp || ' ' || e.snombre_emp || ' ' ||e.appaterno_emp || ' ' || e.apmaterno_emp) "NOMBRE EMPLEADO",
+e.fecha_contrato "FECHA CONTRATO",
+ec.nombre_estado_civil "ESTADO CIVIL",
+UPPER(ce.desc_categoria_emp) "CATEGORIA EMP",
+TO_CHAR(e.sueldo_base,'99G999G999') "SUELDO BASE",
+TO_CHAR(ROUND(e.sueldo_base*(pba.porc_bonif/100)),'99G999G999') "BONO POR 30 AÑOS"
+FROM empleado e JOIN estado_civil ec
+ON e.id_estado_civil=ec.id_estado_civil
+JOIN categoria_empleado ce
+ON e.id_categoria_emp=ce.id_categoria_emp
+JOIN porc_bonif_30_annos pba
+ON e.sueldo_base 
+BETWEEN pba.tramo_sbase_ini AND pba.tramo_sbase_fin
+WHERE TRUNC(MONTHS_BETWEEN(LAST_DAY(SYSDATE),e.fecha_contrato)/12)=30
+ORDER BY e.fecha_contrato, e.appaterno_emp;

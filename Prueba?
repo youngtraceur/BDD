@@ -1,0 +1,15 @@
+to char (ac. fecha ini arriendo, 'YYYYMM")
+as anno mes,
+em. nunrun_ emp, initcap (em.pnombre emp||'
+"¡lem. snombre empil' '11
+em. appaterno emp||'
+'Ilem.apmaterno_emp) as nombre empleado,
+em.sueldo base
+from arriendo camion ac
+join camion ca on ac.nro patente = ca.nro_patente
+join empleado em on ca.numrun_emp = em.numrun_emp
+where to char (ac. fecha_ini_arriendo, 'MM/YY') = '09/23'
+group by to_char (ac. fecha_ini_arriendo, 'YYYYM'),
+en.humrun_emp, initcap (em.pnombre_empi|'
+"lem.snombre empil"
+em.appaterno_emp||''||em.apmaterno_emp), em.sueldo base;

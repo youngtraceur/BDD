@@ -1,0 +1,58 @@
+//CASO1
+SELECT F.NUMFACTURA "NUMFACTURA",
+       F.FECHA "FECHA_VENTA",
+       COUNT(DF.NUMFACTURA) "PRODUCTOS_DISTINTOS",
+       TO_CHAR(SUM(P.VUNITARIO*DF.CANTIDAD),'$999G999G999') "TOTAL_VENTA"
+FROM FACTURA F
+INNER JOIN DETALLE_FACTURA DF
+ON F.NUMFACTURA=DF.NUMFACTURA
+INNER JOIN PRODUCTO P
+ON P.CODPRODUCTO=DF.CODPRODUCTO
+WHERE DF.NUMFACTURA>=2
+GROUP BY F.NUMFACTURA,F.FECHA,DF.NUMFACTURA 
+HAVING COUNT(DF.NUMFACTURA)>=2
+ORDER BY DF.NUMFACTURA DESC;
+
+//CASO2
+
+DROP TABLE cliente_vendedores;
+
+CREATE TABLE cliente_vendedores AS
+SELECT c.rutcliente AS rut,
+       c.nombre,
+       'Cliente' AS tipo,
+       (SELECT SUM(p.vunitario * d.cantidad)
+        FROM factura f
+        INNER JOIN detalle_factura d ON f.numfactura = d.numfactura
+        INNER JOIN producto p ON p.codproducto = d.codproducto
+        WHERE f.rutcliente = c.rutcliente) AS total_comprado,
+       0 AS total_vendido
+FROM cliente c
+LEFT JOIN factura f ON c.rutcliente = f.rutcliente
+GROUP BY c.rutcliente, c.nombre
+UNION
+SELECT v.rutvendedor AS rut,
+       v.nombre,
+       'Vendedor(a)' AS tipo,
+       0 AS total_comprado,
+       (SELECT SUM(p.vunitario * d.cantidad)
+        FROM factura f
+        INNER JOIN detalle_factura d ON f.numfactura = d.numfactura
+        INNER JOIN producto p ON p.codproducto = d.codproducto
+        WHERE f.rutvendedor = v.rutvendedor) AS total_vendido
+FROM vendedor v
+LEFT JOIN factura f ON v.rutvendedor = f.rutvendedor
+GROUP BY v.rutvendedor, v.nombre;
+
+//CASO #3
+UPDATE cliente_vendedores
+SET total_comprado = 0
+WHERE total_comprado IS NULL;
+
+UPDATE cliente_vendedores
+SET total_vendido = 0
+WHERE total_vendido IS NULL;
+
+SELECT rut,nombre,tipo,TO_CHAR(total_comprado, '$999G999G999')total_comprado,TO_CHAR(total_vendido, '$999G999G999')AS total_vendido
+FROM cliente_vendedores
+ORDER BY total_comprado DESC, total_vendido DESC;

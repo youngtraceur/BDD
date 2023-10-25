@@ -50,3 +50,16 @@ FROM (
 GROUP BY RUT, NOMBRE, TIPO, TOTAL_COMPRADO, TOTAL_VENDIDO
 ORDER BY RUT;
 
+
+
+SELECT fac.numfactura, 
+       fac.fecha AS fecha_venta, 
+       COUNT(DISTINCT det.codproducto) AS producto_distintos,  
+       TO_CHAR(SUM(pro.vunitario * det.cantidad), '$999G999G999') AS total_venta
+FROM factura fac
+INNER JOIN detalle_factura det
+ON fac.numfactura = det.numfactura
+INNER JOIN producto pro
+ON det.codproducto = pro.codproducto
+GROUP BY fac.numfactura, fac.fecha
+HAVING COUNT(DISTINCT det.codproducto) >=2;

@@ -1,0 +1,14 @@
+Trabajo
+Generador de Consultas
+1.0
+10
+13
+7E SELECT fac-numfactura. fac. fecha, COUNT (DISTINCT det codproducto) AS cantidad.
+FROM factura fac
+INVER JOIN detalle factura Idet
+ON fac.nunfactura = det.numfactura
+INNER JOIN producto pro
+ON det. codproducto = pro. codproducto
+GROUP B fac-numfactura, fac. fecha
+HAVING COUNT (DISTINCT det. codproducto) 3=2;
+TO CHAR (SUM (pro. vunitario * det. cantidad) , 169

@@ -1,0 +1,76 @@
+
+-- consultar vista
+SELECT * FROM view_emp_sal_10_20;
+
+-- eliminar vista
+DROP VIEW view_emp_sal_10_20;
+
+-- para realizar cambios en la vista
+CREATE OR REPLACE VIEW v_dept30
+    AS SELECT *
+        FROM employees
+        WHERE department_id=30
+WITH CHECK OPTION; -- proteger filtro/where
+        
+-- DELETE FROM v_dept30 WHERE employee_id = 115;        
+
+-- no se puede insertar un empleado(a) que tenga un depto distinto al id 30
+-- INSERT INTO v_dept30
+-- VALUES(999, 'Luis', 'Morales', 'LMORALES', '515.124.4567', SYSDATE, 'AC_ACCOUNT', 6900, NULL, 205, 100);
+
+-- no se puede cambiar de departamento porque la vista está protegida
+-- UPDATE v_dept30 SET department_id = 40 WHERE employee_id = 119;
+
+DELETE FROM v_dept30 WHERE employee_id = 119;
+
+-- vista sólo de lectura (NO INSERT/UPDATE/DELETE)
+CREATE OR REPLACE VIEW v_dept30
+    AS SELECT *
+        FROM employees
+        WHERE department_id=30
+WITH READ ONLY;
+
+DELETE FROM v_dept30 WHERE employee_id =118;
+
+DROP VIEW v_dept30;
+
+-- crear secuencia
+CREATE SEQUENCE SEQ_GENERA_NUMEROS
+START WITH 1
+INCREMENT BY 2
+MAXVALUE 10
+NOCACHE;
+
+-- editar secuencia
+ALTER SEQUENCE SEQ_GENERA_NUMEROS
+MAXVALUE 20
+CYCLE;
+
+-- eliminar secuencia
+DROP SEQUENCE SEQ_GENERA_NUMEROS;
+
+CREATE SEQUENCE SEQ_GENERA_NUMEROS
+START WITH 2
+INCREMENT BY 2
+MINVALUE 2
+MAXVALUE 20
+NOCACHE
+CYCLE;
+
+-- NEXTVAL generar números/valores
+SELECT SEQ_GENERA_NUMEROS.NEXTVAL FROM dual;
+
+-- CURRVAL obtiene el valor actual
+SELECT SEQ_GENERA_NUMEROS.CURRVAL FROM dual;
+
+/*
+    insertar un departamento (tabla departments)
+    utilizando una secuencia para el valor del department_id
+    nombre de la secuencia: seq_departments_id
+*/
+
+INSERT INTO departments (???, 'Sistemas', NULL, NULL);
+
+
+
+

@@ -1,0 +1,45 @@
+-- Crear una secuencia para generar automáticamente los números de factura
+CREATE SEQUENCE SEQ_NUM_FACTURA
+    INCREMENT BY 1
+    START WITH 1
+    NOMAXVALUE
+    NOCYCLE
+    CACHE 20;
+
+-- Crear un trigger que se activará antes de la inserción en la tabla FACTURA
+CREATE OR REPLACE TRIGGER TRG_BEFORE_INSERT_FACTURA
+BEFORE INSERT ON FACTURA
+FOR EACH ROW
+BEGIN
+    -- Asignar el próximo valor de la secuencia al número de factura
+    SELECT SEQ_NUM_FACTURA.NEXTVAL
+    INTO :NEW.NUMERO_FACTURA
+    FROM DUAL;
+END;
+/
+
+
+-- Crear un procedimiento almacenado en la cuenta MDY2131_FACTURAS
+CREATE OR REPLACE PROCEDURE SP_GENERAR_REPORTE
+IS
+BEGIN
+    FOR reporte_rec IN (
+        SELECT codproducto AS CODIGO,
+               INITCAP(descripcion) AS descripcion,
+               vunitario AS valor_unitario,
+               totalstock AS stock
+        FROM MDY2131_OWNER.syn_producto_historico  -- Usar el sinónimo privado
+        WHERE SUBSTR(descripcion, -1) = '&numero'
+        ORDER BY totalstock DESC
+    ) 
+    LOOP
+        -- Imprimir o almacenar el resultado como desees
+        DBMS_OUTPUT.PUT_LINE('CODIGO: ' || reporte_rec.CODIGO ||
+                             ', DESCRIPCION: ' || reporte_rec.descripcion ||
+                             ', VALOR UNITARIO: ' || reporte_rec.valor_unitario ||
+                             ', STOCK: ' || reporte_rec.stock);
+    END LOOP;
+END;
+/
+
+

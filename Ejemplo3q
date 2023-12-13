@@ -1,0 +1,143 @@
+ADMIN SQL
+
+/********************** ADMIN **********************/
+
+-- Creacion de cuentas
+
+CREATE USER MDY2131_ET_FA
+IDENTIFIED BY "1234567ABcdef"
+DEFAULT TABLESPACE DATA
+TEMPORARY TABLESPACE TEMP
+QUOTA UNLIMITED ON DATA;
+
+CREATE USER MDY2131_ET_FA_DES
+IDENTIFIED BY "1234567ABcdef"
+DEFAULT TABLESPACE DATA
+TEMPORARY TABLESPACE TEMP
+QUOTA UNLIMITED ON DATA;
+
+CREATE USER MDY2131_ET_FA_CON
+IDENTIFIED BY "1234567ABcdef"
+DEFAULT TABLESPACE DATA
+TEMPORARY TABLESPACE TEMP
+QUOTA UNLIMITED ON DATA;
+
+-- Privilegios / Roles
+
+GRANT CREATE SESSION,
+      CREATE TABLE,
+      CREATE SEQUENCE,
+      ALTER ANY TABLE,
+      DROP ANY TABLE,
+      CREATE ANY INDEX,
+      CREATE ROLE,
+      CREATE PUBLIC SYNONYM
+TO MDY2131_ET_FA;
+
+GRANT CREATE SESSION,
+      CREATE PROCEDURE,
+      CREATE TRIGGER,
+      CREATE VIEW,
+      CREATE MATERIALIZED VIEW
+TO MDY2131_ET_FA_DES;
+
+GRANT CREATE SESSION
+TO MDY2131_ET_FA_CON;
+
+CREATE ROLE rol_crear;
+
+
+
+
+
+
+/********************** MDY2131_ET_FA_DES **********************/
+
+create or replace view vistaa as
+select e.nombre as "Nombre especialidad",
+       count(m.med_run) as "Cantidad de medicos asociados",
+       count(a.ate_id) as "Cantidad total de atenciones",
+       to_char(sum(a.costo), '$999G999G999') as "Costo Total de Atenciones",
+       to_char(round(sum(a.costo) / count(a.ate_id), 2), '$999G999G999') as "Costo Promedio de Atenciones"
+from syn_e e join syn_m m
+on e.esp_id = m.esp_id
+join syn_a a on a.med_run = m.med_run
+group by e.nombre
+order by count(a.ate_id) desc;
+
+select * from vista;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********************** MDY2131_ET_FA **********************/
+
+GRANT SELECT ON ATENCION TO MDY2131_ET_FA_DES, MDY2131_ET_FA_CON;
+GRANT SELECT ON MEDICO TO MDY2131_ET_FA_DES, MDY2131_ET_FA_CON;
+GRANT SELECT ON ESPECIALIDAD TO MDY2131_ET_FA_DES, MDY2131_ET_FA_CON;
+GRANT SELECT, UPDATE, INSERT ON SELECCION_ESPECIALIDAD TO MDY2131_ET_FA_CON;
+
+-- Sinonimos
+
+CREATE PUBLIC SYNONYM syn_a FOR ATENCION;
+GRANT SELECT ON syn_a TO PUBLIC;
+
+CREATE PUBLIC SYNONYM syn_m FOR MEDICO;
+GRANT SELECT ON syn_m TO PUBLIC;
+
+CREATE PUBLIC SYNONYM syn_e FOR ESPECIALIDAD;
+GRANT SELECT ON syn_e TO PUBLIC;
+
+CREATE PUBLIC SYNONYM syn_s FOR SELECCION_ESPECIALIDAD;
+GRANT SELECT ON syn_s TO PUBLIC;
+
+
+SELECT 
+    TO_CHAR(SYSDATE, 'DD/MM/YYYY') AS "Fecha de Emisión de Informe",
+    e.esp_id AS "Identificador de Especialidad",
+    e.nombre AS "Nombre de Especialidad",
+    ROUND(AVG(m.sueldo_base), 2)
+    AS "Promedio de Sueldos de Médicos",
+    COUNT(m.med_run)
+    AS "Cantidad de Médicos"
+FROM syn_e e
+JOIN MEDICO m ON e.esp_id = M.esp_id
+GROUP BY  e.esp_id, e.nombre
+ORDER BY e.nombre ASC;
+
+insert into SELECCION_ESPECIALIDAD
+
+SELECT 
+    TO_CHAR(SYSDATE, 'DD/MM/YYYY') AS "Fecha de Emisión de Informe",
+    e.esp_id AS "Identificador de Especialidad",
+    e.nombre AS "Nombre de Especialidad",
+    (SELECT ROUND(AVG(M.sueldo_base), 2)
+     FROM MEDICO M 
+     WHERE M.esp_id = e.esp_id) AS "Promedio de Sueldos de Médicos",
+    (SELECT COUNT(M.med_run)
+     FROM MEDICO M 
+     WHERE M.esp_id = e.esp_id) AS "Cantidad de Médicos"
+FROM syn_e e
+ORDER BY e.nombre ASC;

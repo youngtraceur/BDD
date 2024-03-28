@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>acividad</title>
+    position: absolute;
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="MENU">
+        <p>Inicio</p>
+        <p>Nosotros</p>
+        <p>Perros</p>
+        <p>Gatos</p>
+        <p>Contacto</p>
+    </div>
+    <div class="Div1">
+        <h1>Lorem ipsum dolor</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sunt corrupti temporibus fugit possimus
+            obcaecati molestias reiciendis illum officiis cum. Maxime corrupti voluptates alias illum eligendi libero
+            magni incidunt voluptas!</p>
+    </div>
+
+    <div class="Div2">
+        <h1>Lorem ipsum dolor</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sunt corrupti temporibus fugit possimus
+            obcaecati molestias reiciendis illum officiis cum. Maxime corrupti voluptates alias illum eligendi libero
+            magni incidunt voluptas!</p>
+    </div>
+
+    <div class="Div3">
+        <h1>Lorem ipsum dolor</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sunt corrupti temporibus fugit possimus
+            obcaecati molestias reiciendis illum officiis cum. Maxime corrupti voluptates alias illum eligendi libero
+            magni incidunt voluptas!</p>
+    </div>
+
+    <div class="Div4">
+        <h1>Lorem ipsum dolor</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sunt corrupti temporibus fugit possimus
+            obcaecati molestias reiciendis illum officiis cum. Maxime corrupti voluptates alias illum eligendi libero
+            magni incidunt voluptas!</p>
+    </div>
+</body>
+
+</html>
